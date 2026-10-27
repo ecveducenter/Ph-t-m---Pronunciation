@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECV EDU CENTER - Pronunciation Master</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #059669;
+      --primary-hover: #047857;
+      --primary-light: #ecfdf5;
+      --secondary: #0284c7;
+      --accent: #f97316;
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --correct: #10b981;
+      --correct-bg: #d1fae5;
+      --incorrect: #ef4444;
+      --incorrect-bg: #fee2e2;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    .header-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .logo-badge {
+      background: var(--primary);
+      color: white;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .logo-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .logo-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 10px;
+    }
+
+    .nav-btn {
+      border: none;
+      background: transparent;
+      padding: 8px 16px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .main-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .mode-selector {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      background: #ffffff;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .mode-switch {
+      display: flex;
+      gap: 8px;
+    }
+
+    .mode-btn {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+
+    .mode-btn.active {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* Quiz Styling */
+    .quiz-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .q-number {
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: #ffffff;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    .option-btn:hover {
+      border-color: var(--primary);
+      background: #f8fafc;
+    }
+
+    .option-btn.correct {
+      background-color: var(--correct-bg) !important;
+      border-color: var(--correct) !important;
+      color: #065f46 !important;
+    }
+
+    .option-btn.incorrect {
+      background-color: var(--incorrect-bg) !important;
+      border-color: var(--incorrect) !important;
+      color: #991b1b !important;
+    }
+
+    .opt-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .opt-key {
+      font-weight: 700;
+      color: var(--text-muted);
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      border-radius: 50%;
+      font-size: 0.85rem;
+    }
+
+    .opt-word {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .opt-ipa {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-left: 6px;
+      font-weight: 400;
+    }
+
+    .audio-icon {
+      background: var(--primary-light);
+      color: var(--primary);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.1s ease;
+      font-size: 0.9rem;
+    }
+
+    .audio-icon:hover {
+      transform: scale(1.1);
+    }
+
+    /* Explanation Box */
+    .explanation-box {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 10px;
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      display: none;
+    }
+
+    .explanation-box.show {
+      display: block;
+    }
+
+    /* Flashcard Layout */
+    .flashcard-wrapper {
+      perspective: 1000px;
+      margin: 1rem auto 2rem auto;
+      max-width: 650px;
+    }
+
+    .flashcard {
+      width: 100%;
+      min-height: 440px;
+      background: white;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .flashcard.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: 16px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      background: #fafafa;
+    }
+
+    .meanings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+      text-align: left;
+    }
+
+    @media (max-width: 480px) {
+      .meanings-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .meaning-card {
+      background: white;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+
+    .meaning-title {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .fc-controls {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 15px;
+    }
+
+    .btn-action {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-action:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Table Search Styling */
+    .table-container {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow-x: auto;
+    }
+
+    .search-bar {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: #f8fafc;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <a href="#" class="logo">
+        <div class="logo-badge">ECV</div>
+        <div>
+          <div class="logo-title">ECV EDU CENTER</div>
+          <div class="logo-sub">Pronunciation Master</div>
+        </div>
+      </a>
+      <nav>
+        <button class="nav-btn active" onclick="switchEx(1)">Exercise 1</button>
+        <button class="nav-btn" onclick="switchEx(2)">Exercise 2</button>
+        <button class="nav-btn" onclick="switchEx(3)">Exercise 3</button>
+        <button class="nav-btn" onclick="switchEx('ipa')">IPA & Tra Cứu</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="main-container">
+    <div class="mode-selector" id="modeHeader">
+      <h2 id="exTitle" style="font-size: 1.15rem; font-weight: 700;">Exercise 1: Pronunciation</h2>
+      <div class="mode-switch">
+        <button class="mode-btn active" onclick="setMode('quiz')">Trắc Nghiệm</button>
+        <button class="mode-btn" onclick="setMode('flashcard')">Flashcard Lật Thẻ</button>
+      </div>
+    </div>
+
+    <!-- Quiz View -->
+    <div id="quizView"></div>
+
+    <!-- Flashcard View -->
+    <div id="flashcardView" style="display: none;">
+      <div class="flashcard-wrapper">
+        <div class="flashcard" id="card">
+          <div class="card-front">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);" id="fcNum">Câu 1/60</span>
+              <button onclick="flipCardManual()" style="background: var(--primary-light); color: var(--primary); border: none; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">Lật xem đáp án 🔄</button>
+            </div>
+            <div style="margin: 10px 0;">
+              <h3 style="font-size: 0.95rem; margin-bottom: 12px; color: var(--text-muted); font-weight: 600;">Chọn từ có phần gạch chân phát âm khác:</h3>
+              <div id="fcOptions" style="display: flex; flex-direction: column; gap: 8px;"></div>
+            </div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); text-align: center;">Click vào đáp án để kiểm tra đúng/sai!</div>
+          </div>
+          <div class="card-back">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">Đáp Án Đúng:</span>
+                <button onclick="flipCardManual()" style="background: #f1f5f9; color: var(--text-main); border: none; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer;">Quay lại ◀</button>
+              </div>
+              <h2 id="fcCorrectWord" style="font-size: 1.5rem; color: var(--primary); margin: 4px 0;">Word</h2>
+              <p id="fcRule" style="font-size: 0.85rem; color: var(--text-main); line-height: 1.4; background: #fff; padding: 8px; border-radius: 8px; border: 1px solid var(--border);"></p>
+            </div>
+            <div style="margin-top: 8px;">
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">Giải Nghĩa Từ Vựng:</div>
+              <div class="meanings-grid" id="fcMeanings"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-controls">
+        <button class="btn-action" onclick="prevCard()">← Câu Trước</button>
+        <button class="btn-action" onclick="nextCard()">Câu Tiếp →</button>
+      </div>
+    </div>
+
+    <!-- IPA Search View -->
+    <div id="ipaView" style="display: none;">
+      <div class="table-container">
+        <div class="search-bar">
+          <input type="text" id="searchInput" class="search-input" placeholder="Nhập từ vựng hoặc phiên âm để tìm kiếm..." onkeyup="filterTable()">
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Từ vựng</th>
+              <th>Phiên âm IPA</th>
+              <th>Phát âm</th>
+              <th>Giải Nghĩa</th>
+            </tr>
+          </thead>
+          <tbody id="dictTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const rawData = {
+      1: [
+        { id: 1, opts: [{w: "head", ipa: "/hed/", mean: "cái đầu"}, {w: "please", ipa: "/pliːz/", mean: "vui lòng"}, {w: "heavy", ipa: "/ˈhevi/", mean: "nặng"}, {w: "measure", ipa: "/ˈmeʒər/", mean: "đo lường"}], ans: 1, rule: "Từ 'please' phát âm là /iː/, các từ còn lại phát âm là /e/." },
+        { id: 2, opts: [{w: "note", ipa: "/nəʊt/", mean: "ghi chú"}, {w: "gloves", ipa: "/ɡlʌvz/", mean: "găng tay"}, {w: "some", ipa: "/sʌm/", mean: "một vài"}, {w: "other", ipa: "/ˈʌðər/", mean: "khác"}], ans: 0, rule: "Từ 'note' phát âm là /əʊ/, các từ còn lại phát âm là /ʌ/." },
+        { id: 3, opts: [{w: "now", ipa: "/naʊ/", mean: "bây giờ"}, {w: "how", ipa: "/haʊ/", mean: "như thế nào"}, {w: "blow", ipa: "/bləʊ/", mean: "thổi"}, {w: "amount", ipa: "/əˈmaʊnt/", mean: "số lượng"}], ans: 2, rule: "Từ 'blow' phát âm là /əʊ/, các từ còn lại phát âm là /aʊ/." },
+        { id: 4, opts: [{w: "dear", ipa: "/dɪər/", mean: "thân gửi"}, {w: "year", ipa: "/jɪər/", mean: "năm"}, {w: "wear", ipa: "/weər/", mean: "mặc"}, {w: "disappear", ipa: "/ˌdɪsəˈpɪər/", mean: "biến mất"}], ans: 2, rule: "Từ 'wear' phát âm là /eər/, các từ còn lại phát âm là /ɪər/." },
+        { id: 5, opts: [{w: "hate", ipa: "/heɪt/", mean: "ghét"}, {w: "pan", ipa: "/pæn/", mean: "cái chảo"}, {w: "carrot", ipa: "/ˈkærət/", mean: "củ cà rốt"}, {w: "matter", ipa: "/ˈmætər/", mean: "vấn đề"}], ans: 0, rule: "Từ 'hate' phát âm là /eɪ/, các từ còn lại phát âm là /æ/." },
+        { id: 6, opts: [{w: "improved", ipa: "/ɪmˈpruːvd/", mean: "cải thiện"}, {w: "returned", ipa: "/rɪˈtɜːnd/", mean: "trở lại"}, {w: "arrived", ipa: "/əˈraɪvd/", mean: "đến nơi"}, {w: "stopped", ipa: "/stɒpt/", mean: "dừng lại"}], ans: 3, rule: "Từ 'stopped' tận kết thúc bằng -ed phát âm là /t/, các từ còn lại phát âm là /d/." },
+        { id: 7, opts: [{w: "nervous", ipa: "/ˈnɜːvəs/", mean: "lo lắng"}, {w: "scout", ipa: "/skaʊt/", mean: "hướng đạo sinh"}, {w: "household", ipa: "/ˈhaʊshəʊld/", mean: "hộ gia đình"}, {w: "mouse", ipa: "/maʊs/", mean: "con chuột"}], ans: 0, rule: "Từ 'nervous' phát âm là /ɜː/, các từ còn lại chứa âm /aʊ/." },
+        { id: 8, opts: [{w: "favorite", ipa: "/ˈfeɪvərət/", mean: "yêu thích"}, {w: "find", ipa: "/faɪnd/", mean: "tìm kiếm"}, {w: "outside", ipa: "/ˌaʊtˈsaɪd/", mean: "bên ngoài"}, {w: "library", ipa: "/ˈlaɪbrəri/", mean: "thư viện"}], ans: 0, rule: "Từ 'favorite' phát âm là /eɪ/, các từ còn lại chứa âm /aɪ/." },
+        { id: 9, opts: [{w: "last", ipa: "/lɑːst/", mean: "cuối cùng"}, {w: "taste", ipa: "/teɪst/", mean: "nếm"}, {w: "fast", ipa: "/fɑːst/", mean: "nhanh"}, {w: "task", ipa: "/tɑːsk/", mean: "nhiệm vụ"}], ans: 1, rule: "Từ 'taste' phát âm là /eɪ/, các từ còn lại phát âm là /ɑː/." },
+        { id: 10, opts: [{w: "future", ipa: "/ˈfjuːtʃər/", mean: "tương lai"}, {w: "summer", ipa: "/ˈsʌmər/", mean: "mùa hè"}, {w: "number", ipa: "/ˈnʌmbər/", mean: "số"}, {w: "drummer", ipa: "/ˈdrʌmər/", mean: "tay trống"}], ans: 0, rule: "Từ 'future' phát âm u là /juː/, các từ còn lại phát âm là /ʌ/." },
+        { id: 11, opts: [{w: "time", ipa: "/taɪm/", mean: "thời gian"}, {w: "kind", ipa: "/kaɪnd/", mean: "tốt bụng"}, {w: "bid", ipa: "/bɪd/", mean: "đấu giá"}, {w: "nice", ipa: "/naɪs/", mean: "đẹp"}], ans: 2, rule: "Từ 'bid' phát âm i là /ɪ/, các từ còn lại phát âm là /aɪ/." },
+        { id: 12, opts: [{w: "hard", ipa: "/hɑːd/", mean: "cứng/khó"}, {w: "carry", ipa: "/ˈkæri/", mean: "mang"}, {w: "card", ipa: "/kɑːd/", mean: "thẻ"}, {w: "yard", ipa: "/jɑːd/", mean: "sân"}], ans: 1, rule: "Từ 'carry' phát âm a là /æ/, các từ còn lại phát âm là /ɑː/." },
+        { id: 13, opts: [{w: "my", ipa: "/maɪ/", mean: "của tôi"}, {w: "baby", ipa: "/ˈbeɪbi/", mean: "em bé"}, {w: "spy", ipa: "/spaɪ/", mean: "gián điệp"}, {w: "cry", ipa: "/kraɪ/", mean: "khóc"}], ans: 1, rule: "Từ 'baby' phát âm a là /eɪ/, các từ còn lại phát âm là /aɪ/." },
+        { id: 14, opts: [{w: "well", ipa: "/wel/", mean: "tốt"}, {w: "get", ipa: "/ɡet/", mean: "lấy"}, {w: "send", ipa: "/send/", mean: "gửi"}, {w: "pretty", ipa: "/ˈprɪti/", mean: "xinh đẹp"}], ans: 3, rule: "Từ 'pretty' phát âm e là /ɪ/, các từ còn lại phát âm là /e/." },
+        { id: 15, opts: [{w: "weather", ipa: "/ˈweðər/", mean: "thời tiết"}, {w: "ready", ipa: "/ˈredi/", mean: "sẵn sàng"}, {w: "mean", ipa: "/miːn/", mean: "có nghĩa"}, {w: "head", ipa: "/hed/", mean: "đầu"}], ans: 2, rule: "Từ 'mean' phát âm ea là /iː/, các từ còn lại phát âm là /e/." },
+        { id: 16, opts: [{w: "break", ipa: "/breɪk/", mean: "giờ nghỉ"}, {w: "mean", ipa: "/miːn/", mean: "ý nghĩa"}, {w: "please", ipa: "/pliːz/", mean: "vui lòng"}, {w: "meat", ipa: "/miːt/", mean: "thịt"}], ans: 0, rule: "Từ 'break' phát âm ea là /eɪ/, các từ còn lại phát âm là /iː/." },
+        { id: 17, opts: [{w: "lucky", ipa: "/ˈlʌki/", mean: "may mắn"}, {w: "punish", ipa: "/ˈpʌnɪʃ/", mean: "phạt"}, {w: "pull", ipa: "/pʊl/", mean: "kéo"}, {w: "hungry", ipa: "/ˈhʌŋɡri/", mean: "đói"}], ans: 2, rule: "Từ 'pull' phát âm u là /ʊ/, các từ còn lại phát âm là /ʌ/." },
+        { id: 18, opts: [{w: "planet", ipa: "/ˈplænɪt/", mean: "hành tinh"}, {w: "character", ipa: "/ˈkærəktər/", mean: "nhân vật"}, {w: "happy", ipa: "/ˈhæpi/", mean: "vui vẻ"}, {w: "classmate", ipa: "/ˈklɑːsmeɪt/", mean: "bạn cùng lớp"}], ans: 3, rule: "Từ 'classmate' phát âm a là /eɪ/, các từ còn lại phát âm là /æ/." },
+        { id: 19, opts: [{w: "letter", ipa: "/ˈletər/", mean: "thư"}, {w: "twelve", ipa: "/twelv/", mean: "mười hai"}, {w: "person", ipa: "/ˈpɜːsn/", mean: "người"}, {w: "sentence", ipa: "/ˈsentəns/", mean: "câu"}], ans: 2, rule: "Từ 'person' phát âm er là /ɜː/, các từ còn lại phát âm là /e/." },
+        { id: 20, opts: [{w: "humor", ipa: "/ˈhjuːmər/", mean: "hài hước"}, {w: "music", ipa: "/ˈmjuːzɪk/", mean: "âm nhạc"}, {w: "cucumber", ipa: "/ˈkjuːkʌmbər/", mean: "dưa chuột"}, {w: "sun", ipa: "/sʌn/", mean: "mặt trời"}], ans: 3, rule: "Từ 'sun' phát âm u là /ʌ/, các từ còn lại phát âm là /juː/." }
+      ],
+      2: [
+        { id: 1, opts: [{w: "enough", ipa: "/ɪˈnʌf/", mean: "đủ"}, {w: "young", ipa: "/jʌŋ/", mean: "trẻ tuổi"}, {w: "country", ipa: "/ˈkʌntri/", mean: "đất nước"}, {w: "mountain", ipa: "/ˈmaʊntɪn/", mean: "ngọn núi"}], ans: 3, rule: "Từ 'mountain' phát âm ou là /aʊ/, các từ còn lại phát âm là /ʌ/." },
+        { id: 2, opts: [{w: "lamp", ipa: "/læmp/", mean: "đèn"}, {w: "pan", ipa: "/pæn/", mean: "chảo"}, {w: "match", ipa: "/mætʃ/", mean: "trận đấu"}, {w: "table", ipa: "/ˈteɪbl/", mean: "cái bàn"}], ans: 3, rule: "Từ 'table' phát âm a là /eɪ/, các từ còn lại phát âm là /æ/." },
+        { id: 3, opts: [{w: "about", ipa: "/əˈbaʊt/", mean: "về"}, {w: "outside", ipa: "/ˌaʊtˈsaɪd/", mean: "bên ngoài"}, {w: "cousin", ipa: "/ˈkʌzn/", mean: "anh em họ"}, {w: "countless", ipa: "/ˈkaʊntləs/", mean: "vô số"}], ans: 2, rule: "Từ 'cousin' phát âm ou là /ʌ/, các từ còn lại phát âm là /aʊ/." },
+        { id: 4, opts: [{w: "bread", ipa: "/bred/", mean: "bánh mì"}, {w: "steamer", ipa: "/ˈstiːmər/", mean: "nồi hấp"}, {w: "bead", ipa: "/biːd/", mean: "hạt chuỗi"}, {w: "meat", ipa: "/miːt/", mean: "thịt"}], ans: 0, rule: "Từ 'bread' phát âm ea là /e/, các từ còn lại phát âm là /iː/." },
+        { id: 5, opts: [{w: "cover", ipa: "/ˈkʌvər/", mean: "bao phủ"}, {w: "folder", ipa: "/ˈfəʊldər/", mean: "thư mục"}, {w: "here", ipa: "/hɪər/", mean: "ở đây"}, {w: "answer", ipa: "/ˈɑːnsər/", mean: "câu trả lời"}], ans: 2, rule: "Từ 'here' phát âm là /hɪər/, các từ còn lại chứa đuôi âm /ər/." },
+        { id: 6, opts: [{w: "steamer", ipa: "/ˈstiːmər/", mean: "nồi hấp"}, {w: "reach", ipa: "/riːtʃ/", mean: "vươn tới"}, {w: "breakfast", ipa: "/ˈbrekfəst/", mean: "bữa sáng"}, {w: "bead", ipa: "/biːd/", mean: "hạt"}], ans: 2, rule: "Từ 'breakfast' phát âm ea là /e/, các từ còn lại phát âm là /iː/." },
+        { id: 7, opts: [{w: "favorite", ipa: "/ˈfeɪvərət/", mean: "yêu thích"}, {w: "name", ipa: "/ˈneɪm/", mean: "tên"}, {w: "happy", ipa: "/ˈhæpi/", mean: "vui vẻ"}, {w: "danger", ipa: "/ˈdeɪndʒər/", mean: "nguy hiểm"}], ans: 2, rule: "Từ 'happy' phát âm a là /æ/, các từ còn lại phát âm là /eɪ/." },
+        { id: 8, opts: [{w: "end", ipa: "/end/", mean: "kết thúc"}, {w: "help", ipa: "/help/", mean: "giúp đỡ"}, {w: "set", ipa: "/set/", mean: "bộ"}, {w: "before", ipa: "/bɪˈfɔː/", mean: "trước khi"}], ans: 3, rule: "Từ 'before' phát âm o là /ɔː/, các từ còn lại phát âm là /e/." },
+        { id: 9, opts: [{w: "photo", ipa: "/ˈfəʊtəʊ/", mean: "ảnh"}, {w: "hold", ipa: "/həʊld/", mean: "cầm"}, {w: "fork", ipa: "/fɔːk/", mean: "nĩa"}, {w: "slow", ipa: "/sləʊ/", mean: "chậm"}], ans: 2, rule: "Từ 'fork' phát âm or là /ɔː/, các từ còn lại phát âm là /əʊ/." },
+        { id: 10, opts: [{w: "train", ipa: "/treɪn/", mean: "tàu hỏa"}, {w: "wait", ipa: "/weɪt/", mean: "chờ đợi"}, {w: "afraid", ipa: "/əˈfreɪd/", mean: "sợ hãi"}, {w: "chair", ipa: "/tʃeər/", mean: "ghế"}], ans: 3, rule: "Từ 'chair' phát âm air là /eər/, các từ còn lại phát âm là /eɪ/." },
+        { id: 11, opts: [{w: "habit", ipa: "/ˈhæbɪt/", mean: "thói quen"}, {w: "paper", ipa: "/ˈpeɪpər/", mean: "giấy"}, {w: "table", ipa: "/ˈteɪbəl/", mean: "bàn"}, {w: "grade", ipa: "/ɡreɪd/", mean: "điểm số"}], ans: 0, rule: "Từ 'habit' phát âm a là /æ/, các từ còn lại phát âm là /eɪ/." },
+        { id: 12, opts: [{w: "meaning", ipa: "/ˈmiːnɪŋ/", mean: "ý nghĩa"}, {w: "heart", ipa: "/hɑːt/", mean: "trái tim"}, {w: "please", ipa: "/pliːz/", mean: "vui lòng"}, {w: "speak", ipa: "/spiːk/", mean: "nói"}], ans: 1, rule: "Từ 'heart' phát âm ea là /ɑː/, các từ còn lại phát âm là /iː/." },
+        { id: 13, opts: [{w: "light", ipa: "/laɪt/", mean: "đèn"}, {w: "kind", ipa: "/kaɪnd/", mean: "tốt bụng"}, {w: "intelligent", ipa: "/ɪnˈtelɪdʒənt/", mean: "thông minh"}, {w: "underline", ipa: "/ˌʌndəˈlaɪn/", mean: "gạch chân"}], ans: 2, rule: "Từ 'intelligent' phát âm i là /ɪ/, các từ còn lại phát âm là /aɪ/." },
+        { id: 14, opts: [{w: "come", ipa: "/ˈkʌm/", mean: "đến"}, {w: "more", ipa: "/mɔː/", mean: "thêm"}, {w: "money", ipa: "/ˈmʌni/", mean: "tiền"}, {w: "somebody", ipa: "/ˈsʌmbədi/", mean: "ai đó"}], ans: 1, rule: "Từ 'more' phát âm or là /ɔː/, các từ còn lại phát âm là /ʌ/." },
+        { id: 15, opts: [{w: "comb", ipa: "/kəʊm/", mean: "lược"}, {w: "climb", ipa: "/klaɪm/", mean: "trèo"}, {w: "bomb", ipa: "/ˈbɒm/", mean: "bom"}, {w: "baby", ipa: "/ˈbeɪbi/", mean: "em bé"}], ans: 3, rule: "Từ 'baby' phát âm khác, các từ còn lại b ở cuối thường câm hoặc phát âm đặc biệt." },
+        { id: 16, opts: [{w: "nation", ipa: "/ˈneɪʃən/", mean: "quốc gia"}, {w: "national", ipa: "/ˈnæʃnəl/", mean: "thuộc quốc gia"}, {w: "nationality", ipa: "/ˌnæʃəˈnælɪti/", mean: "quốc tịch"}, {w: "international", ipa: "/ˌɪntəˈnæʃənəl/", mean: "quốc tế"}], ans: 0, rule: "Từ 'nation' phát âm a là /eɪ/, các từ còn lại phát âm là /æ/." },
+        { id: 17, opts: [{w: "bank", ipa: "/bæŋk/", mean: "ngân hàng"}, {w: "paper", ipa: "/ˈpeɪpər/", mean: "giấy"}, {w: "explain", ipa: "/ɪksˈpleɪn/", mean: "giải thích"}, {w: "same", ipa: "/seɪm/", mean: "giống nhau"}], ans: 0, rule: "Từ 'bank' phát âm a là /æ/, các từ còn lại phát âm là /eɪ/." },
+        { id: 18, opts: [{w: "fun", ipa: "/fʌn/", mean: "vui"}, {w: "sun", ipa: "/sʌn/", mean: "mặt trời"}, {w: "supermarket", ipa: "/ˈsuːpəmɑːkɪt/", mean: "siêu thị"}, {w: "lunch", ipa: "/ˈlʌntʃ/", mean: "bữa trưa"}], ans: 2, rule: "Từ 'supermarket' phát âm u là /uː/, các từ còn lại phát âm là /ʌ/." },
+        { id: 19, opts: [{w: "different", ipa: "/ˈdɪfrənt/", mean: "khác nhau"}, {w: "literature", ipa: "/ˈlɪtrətʃər/", mean: "văn học"}, {w: "tidy", ipa: "/ˈtaɪdi/", mean: "gọn gàng"}, {w: "finger", ipa: "/ˈfɪŋɡər/", mean: "ngón tay"}], ans: 2, rule: "Từ 'tidy' phát âm y là /aɪ/, các từ còn lại phát âm là /ɪ/." },
+        { id: 20, opts: [{w: "cat", ipa: "/kæt/", mean: "mèo"}, {w: "fat", ipa: "/fæt/", mean: "béo"}, {w: "father", ipa: "/ˈfɑːðər/", mean: "bố"}, {w: "apple", ipa: "/ˈæpəl/", mean: "táo"}], ans: 2, rule: "Từ 'father' phát âm a là /ɑː/, các từ còn lại phát âm là /æ/." }
+      ],
+      3: [
+        { id: 1, opts: [{w: "easy", ipa: "/ˈiːzi/", mean: "dễ dàng"}, {w: "meaning", ipa: "/ˈmiːnɪŋ/", mean: "ý nghĩa"}, {w: "bread", ipa: "/bred/", mean: "bánh mì"}, {w: "heat", ipa: "/hiːt/", mean: "sức nóng"}], ans: 2, rule: "Từ 'bread' phát âm ea là /e/, các từ còn lại phát âm là /iː/." },
+        { id: 2, opts: [{w: "family", ipa: "/ˈfæməli/", mean: "gia đình"}, {w: "try", ipa: "/ˈtraɪ/", mean: "thử"}, {w: "happy", ipa: "/ˈhæpi/", mean: "vui vẻ"}, {w: "lovely", ipa: "/ˈlʌvli/", mean: "đáng yêu"}], ans: 1, rule: "Từ 'try' phát âm y là /aɪ/, các từ còn lại phát âm là /i/." },
+        { id: 3, opts: [{w: "smile", ipa: "/smaɪl/", mean: "nụ cười"}, {w: "life", ipa: "/laɪf/", mean: "cuộc sống"}, {w: "beautiful", ipa: "/ˈbjuːtəfəl/", mean: "xinh đẹp"}, {w: "like", ipa: "/ˈlaɪk/", mean: "thích"}], ans: 2, rule: "Từ 'beautiful' phát âm i là /ɪ/, các từ còn lại phát âm là /aɪ/." },
+        { id: 4, opts: [{w: "small", ipa: "/smɔːl/", mean: "nhỏ"}, {w: "tall", ipa: "/tɔːl/", mean: "cao"}, {w: "favorite", ipa: "/ˈfeɪvərət/", mean: "yêu thích"}, {w: "fall", ipa: "/fɔːl/", mean: "rơi"}], ans: 2, rule: "Từ 'favorite' phát âm a là /eɪ/, các từ còn lại phát âm là /ɔː/." },
+        { id: 5, opts: [{w: "black", ipa: "/blæk/", mean: "màu đen"}, {w: "apple", ipa: "/ˈæpəl/", mean: "táo"}, {w: "gram", ipa: "/ɡræm/", mean: "gam"}, {w: "fall", ipa: "/fɔːl/", mean: "rơi"}], ans: 3, rule: "Từ 'fall' phát âm a là /ɔː/, các từ còn lại phát âm là /æ/." },
+        { id: 6, opts: [{w: "dozen", ipa: "/ˈdʌzən/", mean: "tá"}, {w: "bottle", ipa: "/ˈbɒtəl/", mean: "chai"}, {w: "soccer", ipa: "/ˈsɒkər/", mean: "bóng đá"}, {w: "orange", ipa: "/ˈɒrɪndʒ/", mean: "cam"}], ans: 0, rule: "Từ 'dozen' phát âm o là /ʌ/, các từ còn lại phát âm là /ɒ/." },
+        { id: 7, opts: [{w: "round", ipa: "/ˈraʊnd/", mean: "tròn"}, {w: "shoulder", ipa: "/ˈʃəʊldər/", mean: "vai"}, {w: "mouth", ipa: "/maʊθ/", mean: "miệng"}, {w: "household", ipa: "/ˈhaʊshəʊld/", mean: "hộ gia đình"}], ans: 1, rule: "Từ 'shoulder' phát âm ou là /əʊ/, các từ còn lại phát âm là /aʊ/." },
+        { id: 8, opts: [{w: "money", ipa: "/ˈmʌni/", mean: "tiền"}, {w: "ton", ipa: "/tʌn/", mean: "tấn"}, {w: "month", ipa: "/mʌnθ/", mean: "tháng"}, {w: "shop", ipa: "/ʃɒp/", mean: "cửa hàng"}], ans: 3, rule: "Từ 'shop' phát âm o là /ɒ/, các từ còn lại phát âm là /ʌ/." },
+        { id: 9, opts: [{w: "chest", ipa: "/tʃest/", mean: "ngực"}, {w: "lemonade", ipa: "/ˌleməˈneɪd/", mean: "nước chanh"}, {w: "packet", ipa: "/ˈpækɪt/", mean: "gói"}, {w: "tent", ipa: "/tent/", mean: "lều"}], ans: 2, rule: "Từ 'packet' phát âm e là /ɪ/ (hoặc a khác biệt), các từ còn lại /e/." },
+        { id: 10, opts: [{w: "champagne", ipa: "/ʃæmˈpeɪn/", mean: "rượu sâm banh"}, {w: "chaos", ipa: "/ˈkeɪɒs/", mean: "hỗn loạn"}, {w: "scheme", ipa: "/skiːm/", mean: "kế hoạch"}, {w: "chemist", ipa: "/ˈkemɪst/", mean: "dược sĩ"}], ans: 0, rule: "Từ 'champagne' phát âm ch là /ʃ/, các từ còn lại phát âm là /k/." },
+        { id: 11, opts: [{w: "islander", ipa: "/ˈaɪləndər/", mean: "dân đảo"}, {w: "alive", ipa: "/əˈlaɪv/", mean: "sống"}, {w: "vacancy", ipa: "/ˈveɪkənsi/", mean: "chỗ trống"}, {w: "habitat", ipa: "/ˈhæbɪtæt/", mean: "môi trường sống"}], ans: 3, rule: "Từ 'habitat' phát âm a đầu là /æ/, các từ còn lại phân bố khác." },
+        { id: 12, opts: [{w: "stone", ipa: "/stəʊn/", mean: "hòn đá"}, {w: "top", ipa: "/tɒp/", mean: "đỉnh"}, {w: "pocket", ipa: "/ˈpɒkɪt/", mean: "túi áo"}, {w: "modern", ipa: "/ˈmɒdən/", mean: "hiện đại"}], ans: 0, rule: "Từ 'stone' phát âm o là /əʊ/, các từ còn lại phát âm là /ɒ/." },
+        { id: 13, opts: [{w: "volunteer", ipa: "/ˌvɒlənˈtɪər/", mean: "tình nguyện viên"}, {w: "trust", ipa: "/trʌst/", mean: "tin tưởng"}, {w: "fuss", ipa: "/fʌs/", mean: "làm ầm ĩ"}, {w: "judge", ipa: "/dʒʌdʒ/", mean: "thẩm phán"}], ans: 0, rule: "Từ 'volunteer' phát âm u là /ɒ/, các từ còn lại phát âm là /ʌ/." },
+        { id: 14, opts: [{w: "gossip", ipa: "/ˈɡɒsɪp/", mean: "ngồi lê đôi mách"}, {w: "gentle", ipa: "/ˈdʒentəl/", mean: "nhẹ nhàng"}, {w: "gamble", ipa: "/ˈɡæmbəl/", mean: "đánh bạc"}, {w: "garage", ipa: "/ˈɡærɑːʒ/", mean: "gara"}], ans: 1, rule: "Từ 'gentle' phát âm g là /dʒ/, các từ còn lại phát âm là /ɡ/." },
+        { id: 15, opts: [{w: "daunt", ipa: "/dɔːnt/", mean: "làm nản lòng"}, {w: "astronaut", ipa: "/ˈæstrənɔːt/", mean: "phi hành gia"}, {w: "vaulting", ipa: "/ˈvɔːltɪŋ/", mean: "nhảy chống"}, {w: "aunt", ipa: "/ɑːnt/", mean: "cô/dì"}], ans: 3, rule: "Từ 'aunt' phát âm au là /ɑː/, các từ còn lại phát âm là /ɔː/ hoặc /æ/." },
+        { id: 16, opts: [{w: "clear", ipa: "/klɪər/", mean: "rõ ràng"}, {w: "treasure", ipa: "/ˈtreʒər/", mean: "kho báu"}, {w: "spread", ipa: "/spred/", mean: "lan truyền"}, {w: "dread", ipa: "/dred/", mean: "sợ hãi"}], ans: 0, rule: "Từ 'clear' phát âm ear là /ɪər/, các từ còn lại phát âm ea là /e/." },
+        { id: 17, opts: [{w: "about", ipa: "/əˈbaʊt/", mean: "về"}, {w: "shout", ipa: "/ʃaʊt/", mean: "la hét"}, {w: "wounded", ipa: "/ˈwuːndɪd/", mean: "bị thương"}, {w: "count", ipa: "/kaʊnt/", mean: "đếm"}], ans: 2, rule: "Từ 'wounded' phát âm ou là /uː/, các từ còn lại phát âm là /aʊ/." },
+        { id: 18, opts: [{w: "none", ipa: "/nʌn/", mean: "không ai"}, {w: "dozen", ipa: "/ˈdʌzən/", mean: "tá"}, {w: "youngster", ipa: "/ˈjʌŋstər/", mean: "thanh thiếu niên"}, {w: "home", ipa: "/həʊm/", mean: "nhà"}], ans: 3, rule: "Từ 'home' phát âm o là /əʊ/, các từ còn lại phát âm là /ʌ/." },
+        { id: 19, opts: [{w: "crucial", ipa: "/ˈkruːʃəl/", mean: "quan trọng"}, {w: "partial", ipa: "/ˈpɑːʃəl/", mean: "một phần"}, {w: "material", ipa: "/məˈtɪərɪəl/", mean: "chất liệu"}, {w: "financial", ipa: "/faɪˈnænʃəl/", mean: "tài chính"}], ans: 2, rule: "Từ 'material' phát âm khác trọng âm/âm tiết so với các từ còn lại." },
+        { id: 20, opts: [{w: "major", ipa: "/ˈmeɪdʒər/", mean: "chính/chuyên ngành"}, {w: "native", ipa: "/ˈneɪtɪv/", mean: "bản xứ"}, {w: "sailor", ipa: "/ˈseɪlər/", mean: "thủy thủ"}, {w: "applicant", ipa: "/ˈæplɪkənt/", mean: "người ứng tuyển"}], ans: 3, rule: "Từ 'applicant' phát âm a là /æ/, các từ còn lại phát âm là /eɪ/." }
+      ]
+    };
+
+    let currentEx = 1;
+    let currentMode = 'quiz';
+    let fcIndex = 0;
+    let fcAnswered = false;
+
+    // Gộp tất cả 60 câu hỏi từ các Exercise lại cho Flashcard
+    function getAllFlashcardQuestions() {
+      let all = [];
+      Object.values(rawData).forEach(ex => {
+        all = all.concat(ex);
+      });
+      return all;
+    }
+
+    function switchEx(ex) {
+      document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', (ex === 'ipa' && idx === 3) || idx === ex - 1);
+      });
+
+      if (ex === 'ipa') {
+        document.getElementById('modeHeader').style.display = 'none';
+        document.getElementById('quizView').style.display = 'none';
+        document.getElementById('flashcardView').style.display = 'none';
+        document.getElementById('ipaView').style.display = 'block';
+        renderTable();
+      } else {
+        currentEx = ex;
+        document.getElementById('modeHeader').style.display = 'flex';
+        document.getElementById('exTitle').innerText = `Exercise ${ex}: Pronunciation`;
+        document.getElementById('ipaView').style.display = 'none';
+        setMode(currentMode);
+      }
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.mode-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', (mode === 'quiz' && idx === 0) || (mode === 'flashcard' && idx === 1));
+      });
+
+      if (mode === 'quiz') {
+        document.getElementById('quizView').style.display = 'block';
+        document.getElementById('flashcardView').style.display = 'none';
+        renderQuiz();
+      } else {
+        document.getElementById('quizView').style.display = 'none';
+        document.getElementById('flashcardView').style.display = 'block';
+        fcIndex = 0;
+        renderCard();
+      }
+    }
+
+    function playAudio(text) {
+      window.speechSynthesis.cancel();
+      const msg = new SpeechSynthesisUtterance(text);
+      msg.lang = 'en-US';
+      window.speechSynthesis.speak(msg);
+    }
+
+    function renderQuiz() {
+      const data = rawData[currentEx] || rawData[1];
+      const container = document.getElementById('quizView');
+      container.innerHTML = data.map((q, qIdx) => `
+        <div class="quiz-card" id="qcard_${currentEx}_${qIdx}">
+          <div class="question-header">
+            <span class="q-number">Câu ${qIdx + 1}</span>
+          </div>
+          <p style="font-weight: 600; font-size: 0.95rem;">Chọn từ có phần gạch chân phát âm khác:</p>
+          <div class="options-grid">
+            ${q.opts.map((opt, oIdx) => `
+              <div class="option-btn" id="opt_${currentEx}_${qIdx}_${oIdx}" onclick="checkQuizAns(${currentEx}, ${qIdx}, ${oIdx})">
+                <div class="opt-left">
+                  <span class="opt-key">${String.fromCharCode(65 + oIdx)}</span>
+                  <span class="opt-word">${opt.w}</span>
+                  <span class="opt-ipa">${opt.ipa}</span>
+                </div>
+                <button class="audio-icon" onclick="event.stopPropagation(); playAudio('${opt.w}')">🔊</button>
+              </div>
+            `).join('')}
+          </div>
+          <div class="explanation-box" id="exp_${currentEx}_${qIdx}">
+            <strong style="color: var(--primary);">ĐÁP ÁN ĐÚNG: ${String.fromCharCode(65 + q.ans)}. ${q.opts[q.ans].w} (${q.opts[q.ans].ipa})</strong>
+            <p style="margin-top: 6px; font-size: 0.9rem;">${q.rule}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function checkQuizAns(ex, qIdx, selectedIdx) {
+      const q = rawData[ex][qIdx];
+      const expBox = document.getElementById(`exp_${ex}_${qIdx}`);
+      
+      q.opts.forEach((_, oIdx) => {
+        const btn = document.getElementById(`opt_${ex}_${qIdx}_${oIdx}`);
+        btn.classList.remove('correct', 'incorrect');
+        if (oIdx === q.ans) {
+          btn.classList.add('correct');
+        } else if (oIdx === selectedIdx) {
+          btn.classList.add('incorrect');
+        }
+      });
+
+      expBox.classList.add('show');
+    }
+
+    function renderCard() {
+      const allQ = getAllFlashcardQuestions();
+      const q = allQ[fcIndex];
+      fcAnswered = false;
+      document.getElementById('card').classList.remove('flipped');
+      document.getElementById('fcNum').innerText = `Câu ${fcIndex + 1}/${allQ.length}`;
+      
+      document.getElementById('fcOptions').innerHTML = q.opts.map((opt, i) => `
+        <div class="option-btn" id="fc_opt_${fcIndex}_${i}" onclick="checkFcAns(${i})">
+          <div class="opt-left">
+            <span class="opt-key">${String.fromCharCode(65 + i)}</span>
+            <span class="opt-word">${opt.w}</span>
+            <span class="opt-ipa">${opt.ipa}</span>
+          </div>
+          <button class="audio-icon" onclick="event.stopPropagation(); playAudio('${opt.w}')">🔊</button>
+        </div>
+      `).join('');
+
+      document.getElementById('fcCorrectWord').innerText = `${String.fromCharCode(65 + q.ans)}. ${q.opts[q.ans].w} (${q.opts[q.ans].ipa})`;
+      document.getElementById('fcRule').innerText = q.rule;
+      
+      document.getElementById('fcMeanings').innerHTML = q.opts.map(opt => `
+        <div class="meaning-card">
+          <span class="meaning-title">${opt.w}:</span> ${opt.mean}
+        </div>
+      `).join('');
+    }
+
+    function checkFcAns(selectedIdx) {
+      if (fcAnswered) return;
+      fcAnswered = true;
+      const allQ = getAllFlashcardQuestions();
+      const q = allQ[fcIndex];
+
+      q.opts.forEach((_, i) => {
+        const btn = document.getElementById(`fc_opt_${fcIndex}_${i}`);
+        btn.style.pointerEvents = 'none';
+        if (i === q.ans) {
+          btn.classList.add('correct');
+        } else if (i === selectedIdx) {
+          btn.classList.add('incorrect');
+        }
+      });
+
+      setTimeout(() => {
+        document.getElementById('card').classList.add('flipped');
+      }, 800);
+    }
+
+    function flipCardManual() {
+      document.getElementById('card').classList.toggle('flipped');
+    }
+
+    function nextCard() {
+      const allQ = getAllFlashcardQuestions();
+      fcIndex = (fcIndex + 1) % allQ.length;
+      renderCard();
+    }
+
+    function prevCard() {
+      const allQ = getAllFlashcardQuestions();
+      fcIndex = (fcIndex - 1 + allQ.length) % allQ.length;
+      renderCard();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('dictTable');
+      let allWords = [];
+      Object.values(rawData).forEach(ex => {
+        ex.forEach(q => {
+          allWords = allWords.concat(q.opts);
+        });
+      });
+
+      tbody.innerHTML = allWords.map(item => `
+        <tr>
+          <td style="font-weight: 600;">${item.w}</td>
+          <td style="color: var(--text-muted);">${item.ipa}</td>
+          <td><button class="audio-icon" onclick="playAudio('${item.w}')">🔊</button></td>
+          <td>${item.mean}</td>
+        </tr>
+      `).join('');
+    }
+
+    function filterTable() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('#dictTable tr');
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(input) ? '' : 'none';
+      });
+    }
+
+    // Khởi chạy mặc định
+    switchEx(1);
+  </script>
+</body>
+</html>
